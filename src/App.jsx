@@ -108,7 +108,7 @@ function App() {
           )}
           <Hours hour={weather?.forecast.forecastday[0].hour} />
           <Previsions previsions={weather?.forecast.forecastday} />
-          {/*<Map />*/}
+          <Map />
           <ExtraData weather={weather} />
           <p className='mt-4 text-sm'>
             Gael Ortiz - Powered by{' '}

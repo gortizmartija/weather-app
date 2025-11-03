@@ -1,12 +1,12 @@
 export function Map() {
   return (
     <>
-      <h2>Previsiones:</h2>
-      <img
-        className='w-full aspect-video'
-        src='https://weathermaps.weatherapi.com/precip/tiles/2025110301/0/0/0.png'
+      <h2>Mapa de Previsiones:</h2>
+      <iframe
+        className='w-1/2 aspect-video'
+        src='https://weathermaps.weatherapi.com/precip/tiles/map.html'
         frameborder='0'
-      />
+      ></iframe>
     </>
   );
 }

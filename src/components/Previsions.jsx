@@ -6,7 +6,7 @@ function PrevisionsList({ previsionslist }) {
       <h2>Previsiones:</h2>
       <ul className='flex gap-10'>
         {previsionslist.map((prev, index) => (
-          <li key={prev.day.date}>
+          <li key={prev.date_epoch}>
             <h3>{prev.day.maxtemp_c}º</h3>
             <h3>{prev.day.mintemp_c}°</h3>
             <img src={prev.day.condition.icon} alt='Icono Climatico' />
@@ -25,7 +25,6 @@ function NoPrevisions() {
 
 export function Previsions({ previsions }) {
   const hasPrevisions = previsions?.length > 0;
-  console.log(previsions);
   return hasPrevisions ? (
     <PrevisionsList previsionslist={previsions} />
   ) : (
