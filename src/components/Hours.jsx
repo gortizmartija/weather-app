@@ -1,6 +1,6 @@
 function HoursList({ hourslist }) {
   return (
-    <ul className='flex gap-10'>
+    <ul className='flex gap-10 overflow-auto'>
       {hourslist.map((hour) => (
         <li key={hour.time_epoch}>
           <h3>{hour.time.split(' ')[1]}</h3>

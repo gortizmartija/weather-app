@@ -10,14 +10,6 @@ export function useSearch() {
       isFirstInput.current = search === '';
       return;
     }
-    if (search === '') {
-      setError('No se aceptan espacios vacios');
-      return;
-    }
-    if (search.length < 3) {
-      setError('Debe haber mas de 3 caracteres');
-      return;
-    }
 
     setError(null);
   }, [search]);

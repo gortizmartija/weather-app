@@ -23,7 +23,7 @@ const getCurrentPosition = () => {
   });
 };
 
-export const searchWeather = async (search) => {
+export const searchWeather = async ({ search }) => {
   let location = search;
 
   if (!location) {
