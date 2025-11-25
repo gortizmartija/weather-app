@@ -23,7 +23,7 @@ function HoursList({ hourslist }) {
 }
 
 function NoHours() {
-  return <p>No hay resultados...</p>;
+  return <></>;
 }
 
 export function Hours({ hour }) {

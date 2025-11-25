@@ -38,7 +38,7 @@ function App() {
   };
 
   return (
-    <div className='container mx-auto p-4 text-p1-normal'>
+    <div className='container mx-auto max-w-2xl p-4 text-p1-normal'>
       <form>
         <input
           ref={inputRef}
