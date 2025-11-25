@@ -1,7 +1,12 @@
+import Clock from '@/assets/clock.svg';
+
 function HoursList({ hourslist }) {
   return (
     <div className=' border-2 border-darkmode-50 rounded-lg p-4'>
-      <h2 className='mb-4 text-p3-normal'>Previsión por horas</h2>
+      <h2 className='mb-4 text-p3-normal flex gap-1 items-center'>
+        <img src={Clock} alt='Icon' />
+        Previsión por horas
+      </h2>
       <ul className='flex gap-10 overflow-auto py-2'>
         {hourslist.map((hour) => (
           <li
