@@ -1,5 +1,5 @@
 import { useWeather, useSearch, useCitySuggestions } from './hooks/';
-import { Hours, Previsions, Map, ExtraData } from './components/';
+import { Hours, Previsions, ExtraData } from './components/';
 import { useEffect, useRef } from 'react';
 
 function App() {
@@ -8,6 +8,7 @@ function App() {
   const { suggestions, fetchSuggestions, setSuggestions } =
     useCitySuggestions();
   const dropdownRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     // Si quieres que busque por geolocalización/por defecto, llama sin args:
@@ -30,14 +31,22 @@ function App() {
     fetchSuggestions(newSearch);
   };
 
+  const handleFocus = () => {
+    if (inputRef.current) {
+      inputRef.current.select();
+    }
+  };
+
   return (
-    <div className='container mx-auto p-4'>
+    <div className='container mx-auto p-4 text-p1-normal'>
       <form>
         <input
+          ref={inputRef}
           type='text'
-          className='border-2 border-black rounded-2xl p-2'
+          className='w-full border-2 border-neutral-50 rounded-2xl py-2 px-3 my-4 text-p2-normal'
           value={search}
           onChange={handleChange}
+          onFocus={handleFocus}
           onClick={() => {
             fetchSuggestions(search);
           }}
@@ -46,7 +55,7 @@ function App() {
         {suggestions.length > 0 && (
           <ul
             ref={dropdownRef}
-            className='absolute bg-white border w-96 rounded mt-1 shadow'
+            className='absolute bg-darkmode-300 border w-fit min-w-80 rounded '
           >
             {suggestions.map((city) => (
               <li
@@ -70,57 +79,77 @@ function App() {
           Localización no encontrada
         </p>
       )}
-
       {loading ? (
         <div className='container mx-auto p-4 flex items-center justify-center min-h-[200px]'>
           <div className='relative w-16 h-16'>
             <div className='absolute top-0 left-0 w-16 h-16 border-4 border-blue-200 rounded-full'></div>
-            <div className='absolute top-0 left-0 w-16 h-16 border-4 border-blue-500 rounded-full border-t-transparent animate-spin'></div>
+            <div className='absolute top-0 left-0 w-16 h-16 border-4 border-primary-500 rounded-full border-t-transparent animate-spin'></div>
           </div>
-          <span className='ml-4 text-lg text-gray-600'>Cargando...</span>
+          <span className='ml-4 text-h4s-semibold text-neutral-50'>
+            Cargando...
+          </span>
         </div>
       ) : (
-        <>
-          <h1 className='text-2xl font-bold mb-4'>Weather App</h1>
+        <div className='flex flex-col gap-6'>
           {weather && weather.location && (
-            <div className='bg-white p-4 rounded-lg shadow'>
-              <h2 className='text-xl'>
+            <div className='p-2 mt-6 rounded-lg'>
+              <h2 className='text-h3s-semibold font-bold'>
                 {weather?.location.name}, {weather?.location.country}
               </h2>
-              <h3>{weather?.location.localtime.split(' ')[1]}</h3>
+              <h3 className='text-p2-normal mb-2'>
+                {weather?.location.localtime.split(' ')[1]}
+              </h3>
               {weather?.current && (
                 <>
-                  <p className='text-lg font-bold'>
-                    Temperatura: {weather?.current.temp_c}°
+                  <span className='text-d2s-semibold my-10'>
+                    {Math.round(weather?.current.temp_c)}°
+                  </span>
+                  <img
+                    src={weather.current.condition.icon}
+                    alt='Icono Climatico'
+                    className='-mt-2 -ml-2 mb-2'
+                  />
+                  <p className='text-p2-normal'>
+                    Sensación térmica:{' '}
+                    <strong className='font-semibold'>
+                      {Math.round(weather?.current.feelslike_c)}°
+                    </strong>
                   </p>
-                  <p className='text-lg'>
-                    Sensación térmica: {weather?.current.feelslike_c}°
-                  </p>
-                  <p className='text-lg'>
-                    Maxima {weather?.forecast.forecastday[0].day.maxtemp_c}° ·
-                    Mínima {weather?.forecast.forecastday[0].day.mintemp_c}°
+                  <p className='text-p2-normal'>
+                    Maxima{' '}
+                    <strong className='font-semibold'>
+                      {Math.round(
+                        weather?.forecast.forecastday[0].day.maxtemp_c
+                      )}
+                      °
+                    </strong>{' '}
+                    · Mínima{' '}
+                    <strong className='font-semibold'>
+                      {Math.round(
+                        weather?.forecast.forecastday[0].day.mintemp_c
+                      )}
+                      °
+                    </strong>
                   </p>
                 </>
               )}
-              <img src={weather.current.condition.icon} alt='Icono Climatico' />
-              <p>{weather.current.condition.text}</p>
             </div>
           )}
+
           <Hours hour={weather?.forecast.forecastday[0].hour} />
           <Previsions previsions={weather?.forecast.forecastday} />
-          <Map />
           <ExtraData weather={weather} />
-          <p className='mt-4 text-sm'>
+          <p className='mt-4 text-footer-semibold text-center'>
             Gael Ortiz - Powered by{' '}
             <a
               href='https://www.weatherapi.com/'
               title='Free Weather API'
-              className='text-blue-500 hover:text-blue-700'
+              className='text-primary-500 hover:text-primary  -700'
             >
               WeatherAPI.com
             </a>
           </p>
-        </>
+        </div>
       )}
     </div>
   );
